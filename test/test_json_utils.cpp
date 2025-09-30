@@ -43,6 +43,7 @@
 #include "vda5050_msgs/json_utils/state.hpp"
 #include "vda5050_msgs/json_utils/trajectory.hpp"
 #include "vda5050_msgs/json_utils/velocity.hpp"
+#include "vda5050_msgs/json_utils/visualization.hpp"
 
 using vda5050_msgs::msg::Action;
 using vda5050_msgs::msg::ActionParameter;
@@ -68,6 +69,7 @@ using vda5050_msgs::msg::SafetyState;
 using vda5050_msgs::msg::State;
 using vda5050_msgs::msg::Trajectory;
 using vda5050_msgs::msg::Velocity;
+using vda5050_msgs::msg::Visualization;
 
 // List of types to be tested for serialization round-trip
 using SerializableTypes = ::testing::Types<
@@ -75,7 +77,7 @@ using SerializableTypes = ::testing::Types<
   BatteryState, BoundingBoxReference, Connection, ControlPoint, EdgeState,
   Error, ErrorReference, Header, Info, InfoReference, InstantActions, Load,
   LoadDimensions, NodePosition, NodeState, SafetyState, State, Trajectory,
-  Velocity>;
+  Velocity, Visualization>;
 
 template <typename T>
 class SerializationTest : public ::testing::Test
