@@ -119,7 +119,7 @@ Velocity[<=1] velocity
 # load
 #
 # Field type: Optional
-Load[] loads
+Load[<=32] loads
 
 # Array with a list of current actions and actions to be finished. This may
 # include actions from previous nodes that are still in progress. When an
