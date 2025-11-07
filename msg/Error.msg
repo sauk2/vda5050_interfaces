@@ -10,7 +10,7 @@ string error_type
 # Array of references to identify the source of the error
 #
 # Field type: Optional
-ErrorReference[] error_references
+ErrorReference[<=32] error_references
 
 # Verbose description of the error
 #
