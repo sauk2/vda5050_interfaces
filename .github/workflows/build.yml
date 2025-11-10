@@ -20,10 +20,12 @@ jobs:
             ADDITIONAL_DEBS: clang lld
             CC: "clang"
             CXX: "clang++"
+    env:
+      ISOLATION: "shell"
     runs-on: ubuntu-latest
     container:
       image: ros:jazzy-ros-core
     steps:
       - uses: actions/checkout@v4
       - uses: 'ros-industrial/industrial_ci@master'
-        env: {{ matrix.env }}
+        env: ${{ matrix.env }}
