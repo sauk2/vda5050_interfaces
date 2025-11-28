@@ -39,5 +39,5 @@ string[<=1] action_description
 # eg: deviceId, loadId, external Triggers
 # 
 # Field Type: Optional
-ActionParameter[] action_parameters 
+ActionParameter[<=32] action_parameters 
 
