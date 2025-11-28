@@ -11,7 +11,6 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(nlohmann_json REQUIRED)
 
 # Generate VDA5050 ROS 2 messages
 set(msg_files
