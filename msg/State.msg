@@ -119,7 +119,7 @@ Velocity[<=1] velocity
 # load
 #
 # Field type: Optional
-Load[<=32] loads
+Load[] loads
 
 # Array with a list of current actions and actions to be finished. This may
 # include actions from previous nodes that are still in progress. When an
@@ -144,7 +144,7 @@ Error[] errors
 # specification when these messages are deleted
 #
 # Field type: Optional
-Info[<=32] information
+Info[] information
 
 # Safety state information of the AGV
 #
