@@ -22,6 +22,7 @@ set(msg_files
   "msg/AGVGeometry.msg"
   "msg/AGVPosition.msg"
   "msg/BatteryState.msg"
+  "msg/BlockingType.msg"
   "msg/BoundingBoxReference.msg"
   "msg/Connection.msg"
   "msg/ControlPoint.msg"
