@@ -7,98 +7,79 @@ specification.
 > [!NOTE]
 > The message definitions in this package follow the **VDA 5050 version 2.0.0** specification.
 
-## Features
-
-The features of this package include:
-
-- ROS 2 message definitions for the VDA 5050 message schema.
-- Utility functions for converting between ROS 2 messages and JSON.
-
-> [!WARNING]
-> This package is under acive development. APIs and mesage definitions may change without notice.
-Use with caution in production environments.
-
-## Requirements
-
-- ROS 2
-- `nlohmann_json`
-
-
 ## Supported Messages
 
-- `vda5050_interfaces::msg::Connection`
+### Core Messages
 
-- `vda5050_interfaces::msg::Header` is a shared field across all VDA 5050 messages.
+- `Connection.msg`
+- `Order.msg`
+- `State.msg`
+- `InstantActions.msg`
+- `Factsheet.msg`
+- `Visualization.msg`
+
+### Common Header
+
+All core messages include a shared header
+
+- `Header.msg`
+
+This message contains the common VDA5050 header fields (e.g., `header_id`,
+`timestamp`, `version`, `manufacturer`, `serial_number`) and is embedded in
+each top-level message instead of duplcating the fields.
+
+Example:
+```cpp
+vda5050_interfaces::msg::State msg;
+msg.header.header_id = 1;
+msg.header.version = "2.0.0";
+```
+
+## Build
+
+```bash
+colcon build --packages-select vda5050_interfaces
+source install/setup.bash
+```
 
 ## Usage
-
-### Build the ROS 2 messages and utility library
-
-1. Create a `colcon` workspace and download the source code
-
-```bash
-mkdir -p colcon_ws/src
-cd colcon_ws/src
-git clone https://github.com/ros-industrial/vda5050_interfaces.git
-```
-
-2. Download dependencies and build the workspace
-
-```bash
-cd colcon_ws
-rosdep install --from-paths src --ignore-src -r -y
-colcon build
-```
-
-### Example CMake
-
-Link the JSON utility library in your `CMakeLists.txt`:
-
-```
-target_link_libraries(example
-  PUBLIC
-    ${vda5050_interfaces_LIBRARIES}
-)
-
-target_include_directories(example
-  PUBLIC
-    ${vda5050_interfaces_INCLUDE_DIRS}
-)
-```
 
 ### Example C++
 
 ```cpp
-#include <chrono>
+#include <vda5050_interfaces/msg/connection.hpp>
 
-#include <nlohmann/json.hpp>
-
-#include <vda5050_interfaces/json_utils/header.hpp>
-#include <vda5050_interfaces/msg/header.hpp>
-
-vda5050_interfaces::msg::Header header;
-header.header_id = 0;
-
-// Timestamp in milliseconds in UTC indicating a specific point relative to
-// a clock's 0 point.
-//
-// Note: When using the serialization/deserialization utilities, this will be
-// converted to/from ISO 8601 format YYYY-MM-DDTHH:mm:ss.ssZ
-auto duration = std::chrono::system_clock::now().time_since_epoch();
-auto millisecs =
-    std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-header.timestamp = static_cast<int64_t>(millisecs.count());
-
-header.version = "2.0.0";
-header.manufacturer = "Manufacturer";
-header.serial_number = "S0001";
-
-// Serialize to JSON
-nlohmann::json j = header;
-
-// Deserialize from JSON
-vda5050_interfaces::msg::Header header_deserialized = j;
+vda5050_interfaces::msg::Connection msg;
+msg.connection_state = vda5050_interfaces::msg::Connection::ONLINE;
 ```
+
+### Optional Fields
+
+ROS 2 does not natively support optional fields. So this package uses **bounded
+arrays of size <= 1** to represent optional values.
+
+### Definition
+
+```
+string[<=1] zone_set_id
+```
+
+### Usage
+
+```cpp
+vda5050_interfaces::msg::State msg;
+
+// Assign a value
+msg.zone_set_id.push_back("test_zone");
+```
+
+### Semantics
+
+- `msg.zone_set_id.empty()`: Field is not set
+- `msg.zone_set_id.front()`: Field is set
+- `msg.zone_set_id.front().empty()`: Field is set to `""`
+
+For all types, the same pattern applies with the default values changing depending on the type.
 
 ## Support
 
