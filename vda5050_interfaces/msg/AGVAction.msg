@@ -16,13 +16,13 @@ string[] action_scopes
 # Enum values for allowed scopes in action_scopes.
 #
 # Instant: useable as an instant_action
-string ACTION_SCOPES_INSTANT="INSTANT"
+string ACTION_SCOPE_INSTANT="INSTANT"
 #
 # Node: useable on nodes
-string ACTION_SCOPES_NODE="NODE"
+string ACTION_SCOPE_NODE="NODE"
 #
 # Edge: useable on edges
-string ACTION_SCOPES_EDGE="EDGE"
+string ACTION_SCOPE_EDGE="EDGE"
 
 # Array of parameters an action has. If not defined, the action has no
 # parameters.
@@ -44,16 +44,4 @@ string[<=1] action_description
 # Array of possible blocking types for defined action.
 #
 # Field type: Optional
-string[] blocking_types 
-
-# Enum values for possible blocking types.
-#
-# None: action can be executed in parallel while driving.
-string BLOCKING_TYPES_NONE="NONE"
-#
-# Soft: action can be executed in parallel but AGV cannot be driving.
-string BLOCKING_TYPE_SOFT="SOFT"
-#
-# Hard: action cannot be executed in parallel and AGV cannot be driving.
-string BLOCKING_TYPES_HARD="HARD"
-
+string[] blocking_types

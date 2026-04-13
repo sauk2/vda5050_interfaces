@@ -11,7 +11,6 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(nlohmann_json REQUIRED)
 
 # Generate VDA5050 ROS 2 messages
 set(msg_files
@@ -23,6 +22,7 @@ set(msg_files
   "msg/AGVGeometry.msg"
   "msg/AGVPosition.msg"
   "msg/BatteryState.msg"
+  "msg/BlockingType.msg"
   "msg/BoundingBoxReference.msg"
   "msg/Connection.msg"
   "msg/ControlPoint.msg"
@@ -43,11 +43,10 @@ set(msg_files
   "msg/LoadSpecification.msg"
   "msg/MaxArrayLens.msg"
   "msg/MaxStringLens.msg"
-  "msg/Network.msg"
   "msg/Node.msg"
   "msg/NodePosition.msg"
   "msg/NodeState.msg"
-  "msg/OptionalParameters.msg"
+  "msg/OptionalParameter.msg"
   "msg/Order.msg"
   "msg/PhysicalParameters.msg"
   "msg/PolygonPoint.msg"
@@ -59,9 +58,7 @@ set(msg_files
   "msg/Timing.msg"
   "msg/Trajectory.msg"
   "msg/TypeSpecification.msg"
-  "msg/VehicleConfig.msg"
   "msg/Velocity.msg"
-  "msg/VersionInfo.msg"
   "msg/Visualization.msg"
   "msg/WheelDefinition.msg"
 )
@@ -69,53 +66,5 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ADD_LINTER_TESTS
 )
-
-install(
-  DIRECTORY include/vda5050_interfaces/json_utils
-  DESTINATION include/vda5050_interfaces/vda5050_interfaces
-)
-
-ament_export_dependencies(
-  rosidl_default_runtime
-  nlohmann_json
-)
-
-if(BUILD_TESTING)
-  find_package(ament_cmake_cppcheck REQUIRED)
-  ament_cppcheck()
-
-  find_package(ament_cmake_cpplint REQUIRED)
-  set(cpplint_filters
-    "-whitespace/newline"
-  )
-  ament_cpplint(
-    FILTERS "${cpplint_filters}"
-  )
-
-  find_package(ament_cmake_clang_format REQUIRED)
-  ament_clang_format(
-    CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/.clang-format"
-  )
-
-  find_package(ament_cmake_copyright REQUIRED)
-  ament_copyright()
-
-  find_package(ament_cmake_gtest REQUIRED)
-
-  # Get C++ typesupport target to be able to link generated message types
-  rosidl_get_typesupport_target(cpp_typesupport_target
-    ${PROJECT_NAME} rosidl_typesupport_cpp)
-
-  ament_add_gtest(${PROJECT_NAME}_test test/test_json_utils.cpp)
-  target_include_directories(${PROJECT_NAME}_test
-    PUBLIC
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  )
-  target_link_libraries(${PROJECT_NAME}_test
-    nlohmann_json::nlohmann_json
-    ${cpp_typesupport_target}
-  )
-endif()
 
 ament_package()
